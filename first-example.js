@@ -116,6 +116,8 @@ function sumZero(arr){
 
 }
 
+
+
 //My solution
 function countUniqueValues(arr){
 
@@ -157,7 +159,7 @@ function uniqueValue(arr){
     return i + 1;
 }
 
-
+//Sliding window pattern
 function maxSubarraySum(arr, num){
     let maxSum = 0;
     let tempSum = 0;
@@ -177,6 +179,194 @@ function maxSubarraySum(arr, num){
     return maxSum;
 }
 
-// maxSubarraySum([2,6,9,2,1,8,5,6,3], 3)
 
-console.log(maxSubarraySum([2,6,9,2,1,8,5,6,3], 3));
+function sameFrequency(firstNum, SecondNum){
+
+    let firstValue = firstNum.toString();
+
+    let secondValue = SecondNum.toString();
+
+    const firstFrequencyCounter = {};
+
+    const secondFrequencyCounter = {};
+
+    if(firstValue.length !== secondValue.length) return false; 
+
+    for (const value of firstValue) firstFrequencyCounter[value] = (firstFrequencyCounter[value] || 0) + 1;
+
+    for (const value of secondValue) secondFrequencyCounter[value] = (secondFrequencyCounter[value] || 0) + 1;
+    
+    for (const key in firstFrequencyCounter){
+
+        if(!(key in secondFrequencyCounter)) return false;
+
+        if(firstFrequencyCounter[key] !== secondFrequencyCounter[key]) return false;
+
+    }
+
+    return true;
+}
+
+
+function areThereDuplicates(...values){
+
+    const frequencyCounter = {};
+
+    if(values.length === 0) return false;
+
+    for (const value of values) {
+        frequencyCounter[value] = (frequencyCounter[value] || 0) + 1;
+    }
+
+    for (const value of values) {
+        if(frequencyCounter[value] > 1) {return true}
+    }
+    
+    return false;
+
+}
+
+
+function areThereDuplicatesPointer(...args) {
+    // Two pointers
+    args.sort((a,b) => a > b);
+
+    let start = 0;
+
+    let next = 1;
+
+    while(next < args.length){
+
+      if(args[start] === args[next]){
+          return true
+      }
+
+      start++
+
+      next++
+    }
+
+    return false
+  }
+
+// console.log(areThereDuplicatesPointer(1,2,3,4, 5,6,7))
+
+function sumZero(arr){
+    let left = 0;
+    let right = arr.length - 1;
+
+    while(left < right){
+        let sum = arr[left] + arr[right];
+        if(sum === 0){
+            return [arr[left], arr[right]];
+        } else if (sum > 0){
+            right--;
+        } else {
+            left++;
+        }
+    }
+
+}
+
+//Multiple pointers
+function averagePair(arr, number){
+
+    let pointOne = 0;
+
+    let pointTwo = arr.length - 1;
+
+    let sum = 0;
+
+    console.log(arr.length)
+
+    if(arr.length === 0) return false;
+
+    while(pointOne <= pointTwo){
+
+        sum = arr[pointOne] + arr[pointTwo];
+
+        if((sum / 2) === number)
+        {
+            return true;
+        }else {
+            pointTwo--
+        }
+
+        if(pointOne === pointTwo){
+            pointTwo = arr.length - 1;
+            pointOne++;
+        }
+
+    }
+
+    return false;
+
+}
+
+// console.log(averagePair([],4));
+
+//O(N)
+function isSubsequence(firstString, secondString){
+
+    let firstPointer = 0;
+
+    let secondPointer = 0;
+
+    //we can take the first string and put in an array because the order matters, the same for the second string
+    //Now we can evaluate every character in the second array in order to get the correct one
+    //example array1 = [a,b,t] array2 = [a,c,b]
+    //example array1 = [h,e,l,l,o] array2 = [h,e,l,l,o,w,o,r,l,d]
+    //we get the first caracter array1[0] = a
+    //now we evaluate every character of the second array ultil to find the same character (if we find other character of the first array first we return false)
+    
+    for (let index = 0; index < firstString.length; index++) {
+        
+        if(firstString[firstPointer] === secondString[secondPointer]){
+            secondPointer++
+            firstPointer++
+            if(!(firstString[firstPointer] === secondString[secondPointer])){
+
+                firstPointer++
+
+                if(firstString[firstPointer] === secondString[secondPointer]){
+                    return false;
+
+                } else {
+
+                    secondPointer++
+
+                    if(firstString[firstPointer] === secondString[secondPointer]){
+
+                        return false;
+
+                    }
+
+                }
+
+            }
+        }
+
+    }
+
+    return true;
+
+}
+
+//sensei solution 
+
+function isSubsequenceSensei(str1, str2) {
+    var i = 0;
+    var j = 0;
+    if (!str1) return true;
+    while (j < str2.length) {
+      if (str2[j] === str1[i]) i++;
+      if (i === str1.length) return true;
+      j++;
+    }
+    return false;
+  }
+
+  //O(1)
+
+
+console.log(isSubsequence('abc', 'abracadabra'));
